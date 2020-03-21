@@ -119,7 +119,7 @@
             <el-form-item label="传输域名(host):">{{ v2rayAccount.host }}</el-form-item>
             <el-form-item label="路径(path):">{{ v2rayAccount.path }}</el-form-item>
             <el-form-item label="底层传输安全(tls):">{{ v2rayAccount.tls }}</el-form-item>
-            <el-form-item label="服务器描述:">{{ server.desc }}</el-form-item>
+            <el-form-item label="服务器描述:" v-if="server">{{ server.desc }}</el-form-item>
              </div>
                </el-col> 
             
