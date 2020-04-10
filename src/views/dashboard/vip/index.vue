@@ -1,37 +1,32 @@
 <template>
   <div class="dashboard-editor-container">
-        <github-corner class="github-corner" />
+    <github-corner class="github-corner" />
     <el-row :gutter="10">
-        <el-card>
-           <el-tabs v-model="activeTab">
-           <el-tab-pane label="公告" name="Notice">
-                <Notice />
-              </el-tab-pane>
-              <el-tab-pane label="知识" name="knowledge">
-               todo
-              </el-tab-pane>
-              <!-- 
+      <el-card>
+        <el-tabs v-model="activeTab">
+          <el-tab-pane label="公告" name="Notice">
+            <Notice />
+          </el-tab-pane>
+          <!--
               <el-tab-pane label="Account" name="account">
                  <timeline />
                 <account :user="user" />
               </el-tab-pane>  -->
-            </el-tabs>
-          </el-card>
+        </el-tabs>
+      </el-card>
     </el-row>
   <!-- <el-row>
     <h3>公告</h3>
   </el-row>
     <el-row>
       <el-collapse v-model="activeNames">
-      
+
         <div v-for=" (item,index) in list" :key="index">
       <el-collapse-item :title="item.name" :name="index" >
        <div v-html="item.content" />
       </el-collapse-item>
       </div>
-   
-  
-  
+
 </el-collapse>
     </el-row> -->
   </div>
@@ -46,19 +41,19 @@ import GithubCorner from '@/components/GithubCorner'
 import Notice from './components/Notice'
 export default {
   name: 'DashboardEditor',
-  components: { PanThumb,GithubCorner,Notice },
+  components: { PanThumb, GithubCorner, Notice },
   data() {
     return {
       activeNames: 0,
-      list:null,
-      activeTab:"Notice"
+      list: null,
+      activeTab: 'Notice'
     }
   },
-  created(){
-      // listNotice().then(response =>{
-      //      this.list= response.obj
-      //      this.activeNames=0;
-      // })
+  created() {
+    // listNotice().then(response =>{
+    //      this.list= response.obj
+    //      this.activeNames=0;
+    // })
   },
   computed: {
     ...mapGetters([
@@ -78,7 +73,6 @@ export default {
     border: 0;
     right: 0;
   }
- 
 
   .dashboard-editor-container {
    // background-color: #e3e3e3;
@@ -95,8 +89,6 @@ export default {
       color: #333;
       display: block;
     }
-   
-  
 
   }
 </style>
