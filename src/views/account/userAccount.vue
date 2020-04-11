@@ -1,27 +1,27 @@
 <template>
   <div class="app-container ">
 
-        <el-row :gutter="15">
-         
-          <el-col :span="3" > <el-input v-model="listQuery.userEmail" placeholder="email" /> </el-col>
-          <el-col :span="2">  <el-button @click="getList">搜索</el-button> </el-col>
-        
-        </el-row>
-     
+    <el-row :gutter="15">
+
+      <el-col :span="3"> <el-input v-model="listQuery.userEmail" placeholder="email" /> </el-col>
+      <el-col :span="2">  <el-button @click="getList">搜索</el-button> </el-col>
+
+    </el-row>
+
     <el-table v-loading="listLoading" :data="list" fit highlight-current-row style="width: 100%">
 
-      <el-table-column  align="left" label="账号信息">
+      <el-table-column align="left" label="账号信息">
         <template slot-scope="scope">
           <div><span>用户：{{ scope.row.userVO?scope.row.userVO.email:'' }}</span></div>
-            <div><span>备注：{{ scope.row.userVO?scope.row.userVO.remark:'' }}</span></div>
+          <div><span>备注：{{ scope.row.userVO?scope.row.userVO.remark:'' }}</span></div>
           <div><span>账号：{{ scope.row.accountNo }}</span></div>
-         
+
         </template>
       </el-table-column>
-      
- <el-table-column  align="left" label="">
-      <template slot-scope="scope">
-    <div>
+
+      <el-table-column align="left" label="">
+        <template slot-scope="scope">
+          <div>
             <span> 有效时间： </span>
             <span>
               <font v-if="scope.row.toDate>new Date().getTime()">  {{ scope.row.toDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</font>
@@ -30,39 +30,39 @@
           </div>
           <div v-if="scope.row.statVO">
 
-            <span>结算时间：{{scope.row.statVO.toDate  | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+            <span>结算时间：{{ scope.row.statVO.toDate | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
           </div>
-            </template>
-  </el-table-column>
+        </template>
+      </el-table-column>
 
- <el-table-column  align="left" label="">
-    <template slot-scope="scope">
-  <div> <span>速率：{{ scope.row.speed | speedFilter }}</span></div>
+      <el-table-column align="left" label="">
+        <template slot-scope="scope">
+          <div> <span>速率：{{ scope.row.speed | speedFilter }}</span></div>
           <div>周期：{{ scope.row.cycle }}天/周期</div>
           <div>流量：<span>
             <font v-if="(scope.row.statVO?(scope.row.statVO.flow/1024/1024/1024).toFixed(2) : 0)<scope.row.bandwidth">{{ scope.row.statVO?(scope.row.statVO.flow/1024/1024/1024).toFixed(2) : 0 }}</font>
             <font v-else color="red">{{ scope.row.statVO?(scope.row.statVO.flow/1024/1024/1024).toFixed(2) : 0 }}</font>
             /{{ scope.row.bandwidth }}GB/周期</span>
           </div>
-            </template>
- </el-table-column>
+        </template>
+      </el-table-column>
 
-  <el-table-column  align="left" label="">
-     <template slot-scope="scope">
-    <div>单服务器连接数：{{ scope.row.maxConnection }}/账号</div>
-    <div>账号等级:{{scope.row.level |levelFilter}}</div>      
-   <div>账号状态:{{scope.row.status |accountStatusFilter}}</div>    
-          </template>
- </el-table-column>
-     
-     <el-table-column  align="left" label="">
-     <template slot-scope="scope">
-   
-   <div> <el-link icon="el-icon-edit" type="primary" @click="openAccountDidlog(scope.row)">编辑账号</el-link> </div>
-          </template>
- </el-table-column>
+      <el-table-column align="left" label="">
+        <template slot-scope="scope">
+          <div>单服务器连接数：{{ scope.row.maxConnection }}/账号</div>
+          <div>账号等级:{{ scope.row.level |levelFilter }}</div>
+          <div>账号状态:{{ scope.row.status |accountStatusFilter }}</div>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="left" label="">
+        <template slot-scope="scope">
+
+          <div> <el-link icon="el-icon-edit" type="primary" @click="openAccountDidlog(scope.row)">编辑账号</el-link> </div>
+        </template>
+      </el-table-column>
     </el-table>
-    
+
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.pageSize" @pagination="getList" />
 
     <!-- 账号管理 -->
@@ -75,47 +75,46 @@
           <el-input v-model="accountForm.cycle" />
         </el-form-item>
         <el-form-item label="有效期">
-            <el-date-picker
-              v-model="accountForm.fromDate"
-              value-format="timestamp"
-              type="datetime"
-            />
-            <span>to</span>
-            <el-date-picker
-              v-model="accountForm.toDate"
-              value-format="timestamp"
-              type="datetime"
-            />
+          <el-date-picker
+            v-model="accountForm.fromDate"
+            value-format="timestamp"
+            type="datetime"
+          />
+          <span>to</span>
+          <el-date-picker
+            v-model="accountForm.toDate"
+            value-format="timestamp"
+            type="datetime"
+          />
           <!-- <el-input v-model="accountForm.fromDate"></el-input> -->
         </el-form-item>
         <el-form-item label="增加N天">
-          
-          <el-input v-model="accountForm.addDay" size="medium" >
-             <el-button slot="append" @click="addToDate">增加</el-button>
+
+          <el-input v-model="accountForm.addDay" size="medium">
+            <el-button slot="append" @click="addToDate">增加</el-button>
           </el-input>
-       
 
         </el-form-item>
-        <el-form-item label="速率">
+        <el-form-item label="速率KB/S">
           <el-input v-model="accountForm.speed" />
         </el-form-item>
-        <el-form-item label="流量">
+        <el-form-item label="流量G">
           <el-input v-model="accountForm.bandwidth" />
         </el-form-item>
         <el-form-item label="连接数">
           <el-input v-model="accountForm.maxConnection" />
         </el-form-item>
-        
+
         <el-form-item label="账号等级" prop="level">
-        <el-select v-model="accountForm.level">
-          <el-option
-            v-for="item in levelOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
+          <el-select v-model="accountForm.level">
+            <el-option
+              v-for="item in levelOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="accountForm.status" placeholder="状态">
             <el-option
@@ -134,7 +133,7 @@
       </el-form>
 
     </el-dialog>
-    
+
   </div>
 </template>
 
@@ -155,11 +154,11 @@ export default {
   components: { Pagination, VueQr },
   directives: { permission },
   filters: {
-     accountStatusFilter(status) {
+    accountStatusFilter(status) {
       const statusMap = {
         '1': '正常',
         '0': '禁用'
-      }  
+      }
       return statusMap[status]
     },
     speedFilter: function(v) {
@@ -196,7 +195,7 @@ export default {
   },
   data() {
     return {
-       levelOptions: [{ value: 0, label: '等级0' }, { value: 1, label: '等级1' },{ value: 2, label: '等级2' },{ value: 3, label: '等级3' }],
+      levelOptions: [{ value: 0, label: '等级0' }, { value: 1, label: '等级1' }, { value: 2, label: '等级2' }, { value: 3, label: '等级3' }],
       accountFormOptions: [{
         value: 1,
         label: '正常'
@@ -216,7 +215,7 @@ export default {
         fromDate: null,
         status: '1',
         addDay: 0,
-        level:0
+        level: 0
       },
 
       accountDialog: false,
