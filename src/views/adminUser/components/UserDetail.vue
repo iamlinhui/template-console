@@ -1,31 +1,33 @@
 <template>
-  <div class="createPost-container">
-    <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container" label-width="100px">
+  <div>
+    <div class="createPost-container">
+      <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container" label-width="100px">
 
-      <el-form-item label="email" prop="email">
-        <el-input v-model="postForm.email" />
-      </el-form-item>
+        <el-form-item label="email" prop="email">
+          <el-input v-model="postForm.email" />
+        </el-form-item>
 
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="postForm.password" />
-      </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="postForm.password" />
+        </el-form-item>
 
-      <el-form-item label="角色" prop="role">
+        <el-form-item label="角色" prop="role">
 
-        <el-select v-model="postForm.role">
-          <el-option
-            v-for="item in roleOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
+          <el-select v-model="postForm.role">
+            <el-option
+              v-for="item in roleOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
 
-      <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
-        提交
-      </el-button>
-    </el-form>
+        <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
+          提交
+        </el-button>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -78,8 +80,8 @@ export default {
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true
-          const formData= Object.assign({},this.postForm )
-           formData.password=md5(formData.password)
+          const formData = Object.assign({}, this.postForm)
+          formData.password = md5(formData.password)
           addUser(formData).then(response => {
             this.$notify({
               title: '成功',

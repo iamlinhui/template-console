@@ -1,83 +1,85 @@
 <template>
-  <div class="createPost-container">
-    <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container" label-width="100px">
+  <div>
+    <div class="createPost-container">
+      <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container" label-width="100px">
 
-      <el-form-item label="服务器名称" prop="serverName">
-        <el-input v-model="postForm.serverName" />
-      </el-form-item>
+        <el-form-item label="服务器名称" prop="serverName">
+          <el-input v-model="postForm.serverName" />
+        </el-form-item>
 
-      <el-form-item label="访问域名" prop="clientDomain">
-        <el-input v-model="postForm.clientDomain" />
-      </el-form-item>
+        <el-form-item label="访问域名" prop="clientDomain">
+          <el-input v-model="postForm.clientDomain" />
+        </el-form-item>
 
-      <el-form-item label="访问端口" prop="clientPort">
-        <el-input v-model="postForm.clientPort" />
-      </el-form-item>
+        <el-form-item label="访问端口" prop="clientPort">
+          <el-input v-model="postForm.clientPort" />
+        </el-form-item>
 
-      <el-form-item label="支持TLS" prop="supportTLS">
-        <el-radio-group v-model="postForm.supportTLS">
-          <el-radio v-model="postForm.supportTLS" :label="true">是</el-radio>
-          <el-radio v-model="postForm.supportTLS" :label="false">否</el-radio>
-        </el-radio-group>
+        <el-form-item label="支持TLS" prop="supportTLS">
+          <el-radio-group v-model="postForm.supportTLS">
+            <el-radio v-model="postForm.supportTLS" :label="true">是</el-radio>
+            <el-radio v-model="postForm.supportTLS" :label="false">否</el-radio>
+          </el-radio-group>
         <!-- <el-radio v-model="postForm.supportTLS" label="true">是</el-radio>
         <el-radio v-model="postForm.supportTLS" label="false">否</el-radio> -->
-      </el-form-item>
-      <el-form-item label="中间件地址" prop="proxyIp">
-        <el-input v-model="postForm.proxyIp" placeholder="127.0.0.1" />
-      </el-form-item>
-      <el-form-item label="中间件端口" prop="proxyPort">
-        <el-input v-model="postForm.proxyPort" />
-      </el-form-item>
-      <el-form-item label="v2ray地址" prop="v2rayIp">
-        <el-input v-model="postForm.v2rayIp" placeholder="127.0.0.1" />
-      </el-form-item>
-      <el-form-item label="v2ray端口" prop="v2rayPort">
-        <el-input v-model="postForm.v2rayPort" />
-      </el-form-item>
-      <el-form-item label="v2ray管理端口" prop="v2rayManagerPort">
-        <el-input v-model="postForm.v2rayManagerPort" />
-      </el-form-item>
-      <el-form-item label="流量倍数" prop="Multiple">
-        <el-input v-model="postForm.multiple" placeholder="1" />
-      </el-form-item>
-      <el-form-item label="v2rayTag" prop="inboundTag">
-        <el-input v-model="postForm.inboundTag" />
-      </el-form-item>
-      <!-- <el-form-item label="连接数" prop="maxConnection">
+        </el-form-item>
+        <el-form-item label="中间件地址" prop="proxyIp">
+          <el-input v-model="postForm.proxyIp" placeholder="127.0.0.1" />
+        </el-form-item>
+        <el-form-item label="中间件端口" prop="proxyPort">
+          <el-input v-model="postForm.proxyPort" />
+        </el-form-item>
+        <el-form-item label="v2ray地址" prop="v2rayIp">
+          <el-input v-model="postForm.v2rayIp" placeholder="127.0.0.1" />
+        </el-form-item>
+        <el-form-item label="v2ray端口" prop="v2rayPort">
+          <el-input v-model="postForm.v2rayPort" />
+        </el-form-item>
+        <el-form-item label="v2ray管理端口" prop="v2rayManagerPort">
+          <el-input v-model="postForm.v2rayManagerPort" />
+        </el-form-item>
+        <el-form-item label="流量倍数" prop="Multiple">
+          <el-input v-model="postForm.multiple" placeholder="1" />
+        </el-form-item>
+        <el-form-item label="v2rayTag" prop="inboundTag">
+          <el-input v-model="postForm.inboundTag" />
+        </el-form-item>
+        <!-- <el-form-item label="连接数" prop="maxConnection">
         <el-input v-model="postForm.maxConnection"></el-input>
       </el-form-item> -->
-      <el-form-item label="ws路径" prop="wsPath">
-        <el-input v-model="postForm.wsPath" placeholder="/ws/%s/" />
-      </el-form-item>
-      <el-form-item label="服务描述">
-        <el-input v-model="postForm.desc" />
-      </el-form-item>
+        <el-form-item label="ws路径" prop="wsPath">
+          <el-input v-model="postForm.wsPath" placeholder="/ws/%s/" />
+        </el-form-item>
+        <el-form-item label="服务描述">
+          <el-input v-model="postForm.desc" />
+        </el-form-item>
 
         <el-form-item label="服务器等级" prop="level">
-        <el-select v-model="postForm.level">
-          <el-option
-            v-for="item in levelOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="服务器状态" prop="status">
-        <el-select v-model="postForm.status">
-          <el-option
-            v-for="item in statusOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
+          <el-select v-model="postForm.level">
+            <el-option
+              v-for="item in levelOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="服务器状态" prop="status">
+          <el-select v-model="postForm.status">
+            <el-option
+              v-for="item in statusOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
 
-      <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
-        提交
-      </el-button>
-    </el-form>
+        <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
+          提交
+        </el-button>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -104,7 +106,7 @@ const defaultForm = {
   desc: '',
   // 服务器状态
   status: 1,
-  level:0,
+  level: 0,
   inboundTag: '',
   // 单账号最大连接数
   maxConnection: 100,
@@ -155,7 +157,7 @@ export default {
       rules: Object.assign({}, defaultRules),
       tempRoute: {},
       statusOptions: [{ value: 1, label: '上线' }, { value: 0, label: '下线' }],
-      levelOptions: [{ value: 0, label: '等级0' }, { value: 1, label: '等级1' },{ value: 2, label: '等级2' },{ value: 3, label: '等级3' }]
+      levelOptions: [{ value: 0, label: '等级0' }, { value: 1, label: '等级1' }, { value: 2, label: '等级2' }, { value: 3, label: '等级3' }]
 
     }
   },

@@ -1,26 +1,28 @@
 <template>
-  <div class="createPost-container">
-    <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container" label-width="100px">
+  <div>
+    <div class="createPost-container">
+      <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container" label-width="100px">
 
-      <el-form-item label="key描述" prop="name">
-        <el-input v-model="postForm.name" />
-      </el-form-item>
+        <el-form-item label="key描述" prop="name">
+          <el-input v-model="postForm.name" />
+        </el-form-item>
 
-      <el-form-item label="key" prop="key">
-        <el-input v-model="postForm.key" />
-      </el-form-item>
+        <el-form-item label="key" prop="key">
+          <el-input v-model="postForm.key" />
+        </el-form-item>
 
-      <el-form-item label="value" prop="value">
-        <el-input v-model="postForm.value" />
-      </el-form-item>
+        <el-form-item label="value" prop="value">
+          <el-input v-model="postForm.value" />
+        </el-form-item>
 
-    <el-form-item>
-      <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
-        提交
-      </el-button>
-      </el-form-item>
+        <el-form-item>
+          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
+            提交
+          </el-button>
+        </el-form-item>
 
-    </el-form>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -29,12 +31,12 @@ import { addServerConfig, getServerConfig, updateServerConfig } from '@/api/serv
 const defaultForm = {
   name: '',
   key: '',
-  value: 'true',
+  value: 'true'
 
 }
 const defaultRules = {
   key: { required: true, trigger: 'blur' },
-  value: { required: true, trigger: 'blur' },
+  value: { required: true, trigger: 'blur' }
 
 }
 
@@ -51,8 +53,7 @@ export default {
       postForm: Object.assign({}, defaultForm),
       loading: false,
       rules: Object.assign({}, defaultRules),
-      tempRoute: {},
-
+      tempRoute: {}
 
     }
   },
@@ -75,7 +76,6 @@ export default {
       console.log('server get id ' + id)
       getServerConfig(id).then(response => {
         this.postForm = response.obj
-
       })
     },
     submitForm() {
@@ -85,7 +85,7 @@ export default {
           this.loading = true
           var req = this.isEdit ? updateServerConfig(this.postForm) : addServerConfig(this.postForm)
           req.then(response => {
-           // console.log('addserver chenggong !' + response)
+            // console.log('addserver chenggong !' + response)
             this.$notify({
               title: '成功',
               message: '提交成功',
